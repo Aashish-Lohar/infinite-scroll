@@ -4,9 +4,7 @@ import {
   ElementRef,
   EventEmitter,
   OnInit,
-  Output,
-  QueryList,
-  ViewChildren,
+  Output
 } from '@angular/core';
 import {} from 'rxjs';
 
@@ -16,7 +14,6 @@ import {} from 'rxjs';
 export class IntersectionListenerDirective implements AfterViewInit, OnInit {
   @Output() appIntersectionListener = new EventEmitter<boolean>();
   observer!: IntersectionObserver;
-  @ViewChildren('lastItem') lastItem!: QueryList<ElementRef>;
 
   constructor(private element: ElementRef) {}
 

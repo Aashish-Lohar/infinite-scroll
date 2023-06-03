@@ -20,7 +20,6 @@ export class ImageList2Component implements OnInit, AfterViewInit {
   page = 1;
   perPage = 25;
   isLoading: boolean = false;
-  numberOfClicks = 0;
   observer!:IntersectionObserver
   constructor(private imageService: ImageService) {}
 

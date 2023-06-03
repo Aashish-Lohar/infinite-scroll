@@ -147,6 +147,144 @@ The if statement checks if the user has scrolled to the bottom of the page by co
 We build infinite scroll in angular without any library. Now we will build with the next method.
 
 
+## 2. Using Intersection Observer API
+
+1) For this method we need to create directive using cli command `ng g d intersection-listener`
+and in directive add below code.
+
+`intersection-listener.directive.ts`
+```ts
+import {
+  AfterViewInit,
+  Directive,
+  ElementRef,
+  EventEmitter,
+  OnInit,
+  Output
+} from '@angular/core';
+import {} from 'rxjs';
+
+@Directive({
+  selector: '[appIntersectionListener]',
+})
+export class IntersectionListenerDirective implements AfterViewInit, OnInit {
+
+  @Output() appIntersectionListener = new EventEmitter<boolean>();
+  observer!: IntersectionObserver;//  It will be used to observe changes in the intersection of an element with its parent container.
+
+  constructor(private element: ElementRef) {}
+
+  ngOnInit(): void {
+    this.intersectionObserver();
+  }
+
+  ngAfterViewInit(): void {
+    this.observer.observe(this.element.nativeElement);
+  }
+
+  intersectionObserver() {
+    let options = {
+      root: null,
+      rootMargin: '0px',
+      threshold: 0.5,
+    };
+    this.observer = new IntersectionObserver((entries) => {
+      if (entries[0].isIntersecting) {
+        console.log('scroll more');
+        this.appIntersectionListener.emit(true);
+      }
+    }, options);
+  }
+}
+```
+`ElementRef`class, which represents a reference to the host element to which the directive is applied.
+`ngAfterViewInit(): void`: This method is an Angular lifecycle hook that is called after the view has been initialized. It is used to start observing the intersection of the host element with its parent container.
+`intersectionObserver()`:This is a custom method that sets up the IntersectionObserver. It creates an observer with specified options, including the root element, root margin, and threshold. The observer listens for changes in intersection and triggers a callback function when an intersection occurs. If the observed element is intersecting with its parent container, it logs a message to the console and emits true through the appIntersectionListener event emitter.
+
+**Let's break down the`intersectionObserver`function in detail:**
+```js
+let options = { root: null, rootMargin: '0px', threshold: 0.5 }; 
+```
+The above line declares an options object that defines the configuration for the IntersectionObserver. The options specify the root element (the element that is used as the viewport for checking visibility), the root margin (a margin around the root element's bounding box), and the threshold (the percentage of the target element's visibility needed for the intersection to be considered).
+```ts
+this.observer = new IntersectionObserver((entries) => { ... }, options);
+```
+The above line creates a new IntersectionObserver object. The observer takes a callback function as the first argument, which is executed whenever an observed element's intersection with the root changes. The second argument is the options object defined earlier.
+
+`(entries) => { ... }` the callback function that is executed when the intersection of the observed element with the root changes. It takes an array of entries as a parameter. Each entry in the array represents an observed element and provides information about its intersection with the root.
+
+`if (entries[0].isIntersecting) { ... }` : This line checks if the first entry in the entries array (which corresponds to the observed element) is currently intersecting with the root element. The isIntersecting property indicates whether the observed element is visible within the root element or not.
+
+`this.appIntersectionListener.emit(true);`: This line emits a true value through the appIntersectionListener output property. It triggers an event that can be listened to by the parent component. By emitting true, it indicates that the observed element has intersected with the root and additional scrolling or loading actions may be necessary.
+
+**Now our directive code is done, we can move to next step**
+2) For this method we will use tha same service `image.service.ts` to get images as in First method. We also need to create another component to implement infinite scroll of images `image-list2.component`.
+
+`image-list2.component.ts`
+```ts
+import {
+  Component
+  OnInit
+} from '@angular/core';
+import { ImageService } from '../image.service';
+
+@Component({
+  selector: 'app-image-list2',
+  templateUrl: './image-list2.component.html',
+  styleUrls: ['./image-list2.component.scss'],
+})
+export class ImageList2Component implements OnInit, AfterViewInit {
+
+  items: any[] = [];
+  page = 1;
+  perPage = 25;
+  isLoading: boolean = false;
+  constructor(private imageService: ImageService) {}
+
+  ngOnInit(): void {
+    this.loadItems();
+  }
+
+  loadItems() {
+    this.isLoading = true;
+    this.imageService.getItems(this.page, this.perPage).subscribe((items) => {
+      this.items.push(...items.photos);
+      console.log(items);
+      this.page++;
+      this.isLoading = false;
+    });
+  }
+}
+```
+
+`image-list2.component.html`
+```html
+<div class="item-list grid gap-2 grid-cols-1 lg:grid-cols-3 mx-auto my-2 w-full" >
+    <div *ngFor="let item of items; let i=index" class="img-container w-full  mx-auto rounded-md border">
+        <img (appIntersectionListener)="loadItems()"  *ngIf="i+1===items.length" class="img h-full w-full rounded-md object-cover" [src]="item.src.large" alt="" crossorigin>
+        <img  *ngIf="i+1!=items.length" class="img h-full w-full rounded-md object-cover" [src]="item.src.large" alt="" crossorigin>
+    </div>
+</div>
+<div *ngIf="isLoading" class="flex justify-center">
+   Loading...
+</div>
+```
+In above html we can observe that there is a div element with the class `img-container` looping through the items array, in div we have two image tags first one is  the below one which only visible when the last element of the array comes
+```html
+ <img (appIntersectionListener)="loadItems()" #lastItem *ngIf="i+1===items.length" class="img h-full w-full rounded-md object-cover" [src]="item.src.large" alt="" crossorigin>
+```
+ This image tag has the (appIntersectionListener) attribute, which listens for the appIntersectionListener event emitted by the IntersectionListenerDirective. When the last item in the array becomes visible, the event is emitted, and it triggers the loadItems() function in the `image-list2.component.ts` and more images will load.
+ 
+ ***Now the final step***
+ 3) add the component in `app.component.html`
+ ```html
+ <!--<app-image-list></app-image-list>-->
+ <app-image-list2></app-image-list2>
+ ```
+I hope it helps whoever wants to develop infinite scroll without any libraries.
+
+
+
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 16.0.2.
 
