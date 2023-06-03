@@ -3,7 +3,7 @@
 </div> -->
 <div class="item-list grid gap-2 grid-cols-1 lg:grid-cols-3 mx-auto my-2 w-full" >
     <div *ngFor="let item of items; let i=index" class="img-container w-full  mx-auto rounded-md border">
-        <img (appIntersectionListener)="loadItems()" #lastItem *ngIf="i+1===items.length" class="img h-[200px] w-full rounded-md object-cover" [src]="item.src.large" alt="" crossorigin>
+        <img (appIntersectionListener)="loadItems()" #lastItem *ngIf="i+1===items.length" class="img h-full w-full rounded-md object-cover" [src]="item.src.large" alt="" crossorigin>
         <img  *ngIf="i+1!=items.length" class="img h-full w-full rounded-md object-cover" [src]="item.src.large" alt="" crossorigin>
     </div>
 </div>

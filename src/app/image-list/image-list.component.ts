@@ -9,7 +9,7 @@ import { ImageService } from '../image.service';
 export class ImageListComponent implements OnInit {
   items: any[] = [];
   page = 1;
-  perPage = 50;
+  perPage = 25;
   isLoading:boolean=false;
   numberOfClicks = 0;
 
