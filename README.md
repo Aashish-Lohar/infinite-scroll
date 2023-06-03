@@ -281,6 +281,13 @@ In above html we can observe that there is a div element with the class `img-con
  <!--<app-image-list></app-image-list>-->
  <app-image-list2></app-image-list2>
  ```
+
+
+
+https://github.com/Aashish-Lohar/infinite-scroll/assets/70789305/6f212a57-970f-4796-985b-a93f302750a3
+
+
+ 
 I hope it helps whoever wants to develop infinite scroll without any libraries.
 
 
