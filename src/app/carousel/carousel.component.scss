@@ -1,0 +1,20 @@
+.fade {
+    animation-name: fade;
+    animation-duration: 1.5s;
+  }
+  
+  @keyframes fade {
+    from {opacity: .4} 
+    to {opacity: 1}
+  }
+
+  .reduce{
+    animation-name: reduce;
+    animation-duration: 1.5s;
+  }
+
+  @keyframes reduce {
+    from {transform: scale(0);} 
+    to {transform: scale(1);}
+  }
+  

@@ -1,4 +1,4 @@
-<div class="w-full bg-[rgba(0,0,0,0.4)] text-white backdrop-blur-md sticky top-0">
+<div class="w-full bg-[rgba(0,0,0,0.4)] text-white backdrop-blur-md sticky top-0 z-50">
     <div class="mx-auto flex max-w-7xl items-center justify-between px-4 py-2 sm:px-6 lg:px-8">
       <div routerLink="/"  class="inline-flex items-center space-x-2">
         <span>
@@ -40,6 +40,18 @@
               class="text-sm font-semibold text-gray-100 hover:red-600"
             >
               Scroll event
+            </button>
+          </li>
+          <li>
+            <button
+            title="using window scroll event "
+              routerLink="/carousel"
+              routerLinkActive="text-red-600"
+              [routerLinkActiveOptions]="{exact:
+                true}"
+              class="text-sm font-semibold text-gray-100 hover:red-600"
+            >
+              Carousel
             </button>
           </li>
           

@@ -13,6 +13,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HeaderComponent } from './header/header.component';
 import { ImageList2Component } from './image-list2/image-list2.component';
 import { IntersectionListenerDirective } from './directives/intersection-listener.directive';
+import { CarouselComponent } from './carousel/carousel.component';
 
 
 registerLocaleData(en);
@@ -23,7 +24,8 @@ registerLocaleData(en);
     ImageListComponent,
     HeaderComponent,
     ImageList2Component,
-    IntersectionListenerDirective
+    IntersectionListenerDirective,
+    CarouselComponent
   ],
   imports: [
     BrowserModule,
