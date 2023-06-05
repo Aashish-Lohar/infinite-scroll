@@ -1,7 +1,7 @@
 <div class="carousel-container ">
-  <div class="slides flex relative bg-teal-300 w-3/4 mx-auto">
+  <div class="slides flex relative w-screen lg:w-3/4  mx-auto">
     <div
-      class="slide fade reduce w-full  h-[75vh] mx-auto rounded-md border ease-in-out delay-1000"
+      class="slide fade reduce w-full  h-screen  rounded-md border ease-in-out delay-1000"
       #slides
       *ngFor="let slide of slides"
     >
@@ -14,19 +14,19 @@
     <div class="controls">
       <button
         [disabled]="disablePrev"
-        [ngClass]="{ 'bg-slate-300': disablePrev }"
-        class="prev absolute top-1/2 translate-y-[-50%] py-2 px-4 border bg-slate-400 left-0"
+        [ngClass]="{ 'bg-slate-300': disablePrev, 'bg-slate-400':!disablePrev }"
+        class="prev absolute top-1/2 translate-y-[-50%] py-2 px-4 border left-0"
         (click)="controls('prev')"
       >
-        prev
+      &#10094;
       </button>
       <button
         [disabled]="disableNext"
-        [ngClass]="{ 'bg-slate-300': disableNext }"
-        class="next absolute top-1/2 translate-y-[-50%] py-2 px-4 border bg-slate-400 right-0"
+        [ngClass]="{ 'bg-slate-300': disableNext, 'bg-slate-400':!disableNext }"
+        class="next absolute top-1/2 translate-y-[-50%] py-2 px-4 border right-0"
         (click)="controls('next')"
       >
-        next
+      &#10095;
       </button>
     </div>
   </div>

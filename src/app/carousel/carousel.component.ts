@@ -14,7 +14,7 @@ import {
 export class CarouselComponent implements AfterViewInit {
   @ViewChildren('slides') slideSelector!: QueryList<ElementRef>;
   counter = 0;
-  disablePrev = false;
+  disablePrev = true;
   disableNext = false;
   public slides = [
     {
