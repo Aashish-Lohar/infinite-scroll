@@ -1,5 +1,6 @@
 import { Component, HostListener, OnInit } from '@angular/core';
 import { ImageService } from '../image.service';
+import { ModalService } from '../services/modal.service';
 
 @Component({
   selector: 'app-image-list',
@@ -12,8 +13,9 @@ export class ImageListComponent implements OnInit {
   perPage = 25;
   isLoading:boolean=false;
   numberOfClicks = 0;
+  activePhoto!:any
 
-  constructor(private imageService: ImageService) {}
+  constructor(private imageService: ImageService, private modal:ModalService) {}
   ngOnInit(): void {
     this.loadItems();
   }
@@ -34,6 +36,9 @@ export class ImageListComponent implements OnInit {
       this.isLoading=false
     });
   }
-
+  selectActivePhoto(photo: any) {
+    this.activePhoto = photo;
+    this.modal.isModalOpen.next(true);
+  }
 
 }

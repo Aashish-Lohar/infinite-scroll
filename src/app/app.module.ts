@@ -4,7 +4,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { ImageListComponent } from './image-list/image-list.component';
-import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http'
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { AuthInterceptor } from './auth.interceptor';
 import { registerLocaleData } from '@angular/common';
 import en from '@angular/common/locales/en';
@@ -16,7 +16,6 @@ import { IntersectionListenerDirective } from './directives/intersection-listene
 import { CarouselComponent } from './carousel/carousel.component';
 import { SharedModule } from './shared/shared.module';
 
-
 registerLocaleData(en);
 
 @NgModule({
@@ -26,7 +25,7 @@ registerLocaleData(en);
     HeaderComponent,
     ImageList2Component,
     IntersectionListenerDirective,
-    CarouselComponent
+    CarouselComponent,
   ],
   imports: [
     BrowserModule,
@@ -34,15 +33,15 @@ registerLocaleData(en);
     HttpClientModule,
     FormsModule,
     BrowserAnimationsModule,
-    SharedModule
+    SharedModule,
   ],
   providers: [
     {
-      provide:HTTP_INTERCEPTORS,
-      useClass:AuthInterceptor,
-      multi:true
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptor,
+      multi: true,
     },
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

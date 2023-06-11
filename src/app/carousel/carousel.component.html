@@ -4,6 +4,7 @@
       class="slide fade reduce w-full  h-screen  rounded-md border ease-in-out delay-1000"
       #slides
       *ngFor="let slide of slides"
+      (click)="activePhoto(slide)"
     >
       <img
         class="h-full w-full rounded-md object-cover"
@@ -31,3 +32,8 @@
     </div>
   </div>
 </div>
+
+<app-modal *ngIf="photo">
+  <h2 heading>{{photo.photographer}} h</h2>
+  <div class="img  bg-pink-400"></div>
+</app-modal>
