@@ -41,6 +41,8 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           ls -lrta
+          git add .
+          git commit -m "publishing the chart"
           git checkout gh-pages
           git merge --no-ff publish-chart 
           git push origin gh-pages
