@@ -43,4 +43,4 @@ jobs:
           ls -lrta
           git checkout gh-pages
           git merge --no-ff publish-chart 
-          git push origin gh-pages
+          git push https://x-access-token:${GITHUB_TOKEN}@github.com/${{ github.repository }}.git gh-pages
