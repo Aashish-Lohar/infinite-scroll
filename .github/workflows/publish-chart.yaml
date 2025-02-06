@@ -32,7 +32,9 @@ jobs:
           tags: ${{ secrets.DOCKER_USERNAME }}/infinite-scroll:latest
 
       - name: Package Helm chart
-        run: helm package ./infinite-scroll-chart
+        run: |
+          helm package ./infinite-scroll-chart
+          helm repo index .
 
       - name: push to gh-pages
         # env:
@@ -42,7 +44,7 @@ jobs:
           git config user.email "github-actions[bot]@users.noreply.github.com"
           ls -lrta
           git add .
-          git commit -m "publishing the chart"
+          git commit -m "publishing the chart version 0.1.1"
           git checkout gh-pages
           git merge --no-ff publish-chart 
           git push origin gh-pages
