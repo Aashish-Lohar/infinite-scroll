@@ -39,11 +39,11 @@ jobs:
       - name: Package Helm chart
         run: |
           git checkout gh-pages
+          git merge --no-ff publish-chart 
           rm *.tgz index.yaml
           helm package ./infinite-scroll-chart
           helm repo index .
           git add .
           git commit -m "publishing the chart version 0.1.1"
           ls -lrta
-          git merge --no-ff publish-chart 
           git push origin gh-pages
