@@ -42,10 +42,10 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          ls -lrta
           git add .
           git commit -m "publishing the chart version 0.1.1"
           git checkout gh-pages
           rm *.tgz
+          ls -lrta
           git merge --no-ff publish-chart 
           git push origin gh-pages
