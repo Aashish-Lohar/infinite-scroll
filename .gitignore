@@ -37,7 +37,7 @@ src/environments
 /libpeerconnection.log
 testem.log
 /typings
-
+.tgz
 # System files
 .DS_Store
 Thumbs.db
