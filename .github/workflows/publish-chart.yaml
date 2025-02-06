@@ -30,7 +30,7 @@ jobs:
           tags: ${{ secrets.DOCKER_USERNAME }}/infinite-scroll:latest
 
       - name: Package Helm chart
-        run: helm package ./chart
+        run: helm package ./infinite-scroll-chart
 
       - name: push to gh-pages
         # env:
