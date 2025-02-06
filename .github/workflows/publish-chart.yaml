@@ -46,5 +46,6 @@ jobs:
           git add .
           git commit -m "publishing the chart version 0.1.1"
           git checkout gh-pages
+          rm *.tgz
           git merge --no-ff publish-chart 
           git push origin gh-pages
