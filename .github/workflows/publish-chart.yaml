@@ -39,7 +39,7 @@ jobs:
       - name: Package Helm chart
         run: |
           git checkout gh-pages
-          rm *.tgz
+          rm *.tgz index.yam
           helm package ./infinite-scroll-chart
           helm repo index .
           git add .
