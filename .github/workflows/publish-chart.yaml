@@ -40,7 +40,7 @@ jobs:
         run: |
           git checkout gh-pages
           git merge --no-ff publish-chart 
-          rm *.tgz index.yaml
+          rm *.tgz
           helm package ./infinite-scroll-chart
           helm repo index .
           git add .
