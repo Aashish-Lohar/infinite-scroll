@@ -1,0 +1,7 @@
+organization=aashish-lohar
+projectKey=infinite-scroll
+serverUrl=https://sonarcloud.io
+serverVersion=8.0.0.59737
+dashboardUrl=https://sonarcloud.io/dashboard?id=infinite-scroll&branch=publish-chart&resolved=false
+ceTaskId=AZUKMQpWPpOaaM8p_LPR
+ceTaskUrl=https://sonarcloud.io/api/ce/task?id=AZUKMQpWPpOaaM8p_LPR
