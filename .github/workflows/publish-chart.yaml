@@ -112,8 +112,7 @@ jobs:
             GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           pwd
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git remote set-url origin https://github.com/Aashish-Lohar/infinite-scroll.git
           git checkout gh-pages
           git merge --no-ff publish-chart 
           rm *.tgz
