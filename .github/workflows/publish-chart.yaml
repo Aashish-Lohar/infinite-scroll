@@ -72,6 +72,9 @@ jobs:
           severity: "CRITICAL,HIGH"
           output: trivy-result.txt
 
+      - name: Check Trivy result file
+        run: cat trivy-result.txt
+
       - name: Format Trivy Scan Result
         run: |
           if [ -s trivy-result.txt ]; then
@@ -106,6 +109,8 @@ jobs:
 
       - name: Package Helm chart
         run: |
+          pwd
+          git remote -v
           git checkout gh-pages
           git merge --no-ff publish-chart 
           rm *.tgz
