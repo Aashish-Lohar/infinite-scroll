@@ -108,9 +108,11 @@ jobs:
           git config user.email "github-actions[bot]@users.noreply.github.com"
 
       - name: Package Helm chart
+        env:
+            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           pwd
-          git remote -v
+          git remote set-url origin https://x-access-token:${GITHUB_TOKEN}@github.com/${{ github.repository }}
           git checkout gh-pages
           git merge --no-ff publish-chart 
           rm *.tgz
