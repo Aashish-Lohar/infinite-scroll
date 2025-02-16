@@ -6,20 +6,42 @@ on:
       - publish-chart
 
 jobs:
-  build:
+  checkout-code:
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
+      - name: Cache a directory
+        uses: actions/cache@v4
+        with:
+          path: ./
+          key: ${{ runner.os }}-cache-${{ github.sha }}
+
+  static-code-analysis:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Restore cache
+        uses: actions/cache@v4
+        with:
+          path: ./
+          key: ${{ runner.os }}-cache-${{ github.sha }}
+
       - name: SonarQube Scan
         uses: SonarSource/sonarqube-scan-action@v4
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
+
+  build-scan-publish-image:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Restore cache
+        uses: actions/cache@v4
+        with:
+          path: ./
+          key: ${{ runner.os }}-cache-${{ github.sha }}
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
@@ -30,15 +52,52 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_TOKEN}}
 
-      - name: Build and push Docker image
-        uses: docker/build-push-action@v6
+      # - name: Build and push Docker image
+      #   uses: docker/build-push-action@v6
+      #   with:
+      #     context: .
+      #     push: true
+      #     tags: ${{ secrets.DOCKER_USERNAME }}/infinite-scroll:latest
+
+      - name: Build Docker image
+        run: docker build -t ${{ secrets.DOCKER_USERNAME }}/infinite-scroll:latest . 
+
+      - name: Scan image with Trivy
+        uses: aquasecurity/trivy-action@0.24.0
         with:
-          context: .
-          push: true
-          tags: ${{ secrets.DOCKER_USERNAME }}/infinite-scroll:latest
+          image-ref: ${{ secrets.DOCKER_USERNAME }}/infinite-scroll:latest
+          format: "table"
+          severity: "CRITICAL,HIGH"
+          output: trivy-result.txt
+
+      - name: Format Trivy Scan Result
+        run: |
+          if [ -s trivy-result.txt ]; then
+            echo -e "## Vulnerability Scan Results\n<details><summary>Details</summary>\n\n\`\`\`\n$(cat trivy-result.txt)\n\`\`\`\n</details>" > formatted-trivy-result.md
+          else
+            echo -e "## Vulnerability Scan Results\nNo vulnerabilities were detected." > formatted-trivy-result.md
+          fi
+
+      - name: Comment PR with Trivy scan results
+        uses: marocchino/sticky-pull-request-comment@v2
+        with:
+          path: formatted-trivy-result.md
+
+      - name: Push Docker image
+        run: docker push ${{ secrets.DOCKER_USERNAME }}/infinite-scroll:latest
+
+  publish-helm-chart:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Restore cache
+        uses: actions/cache@v4
+        with:
+          path: ./
+          key: ${{ runner.os }}-cache-${{ github.sha }}
 
       - name: Setup-git
         run: |
+          pwd
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
 
