@@ -22,6 +22,7 @@ jobs:
 
   static-code-analysis:
     runs-on: ubuntu-latest
+    needs: checkout-code
     steps:
       - name: Restore cache
         uses: actions/cache@v4
@@ -36,6 +37,7 @@ jobs:
 
   build-scan-publish-image:
     runs-on: ubuntu-latest
+    needs: static-code-analysis
     steps:
       - name: Restore cache
         uses: actions/cache@v4
@@ -70,6 +72,9 @@ jobs:
           severity: "CRITICAL,HIGH"
           output: trivy-result.txt
 
+      - name: Check Trivy result file
+        run: cat trivy-result.txt
+
       - name: Format Trivy Scan Result
         run: |
           if [ -s trivy-result.txt ]; then
@@ -88,12 +93,12 @@ jobs:
 
   publish-helm-chart:
     runs-on: ubuntu-latest
+    needs: build-scan-publish-image
     steps:
-      - name: Restore cache
-        uses: actions/cache@v4
+      - name: Checkout code
+        uses: actions/checkout@v4
         with:
-          path: ./
-          key: ${{ runner.os }}-cache-${{ github.sha }}
+          fetch-depth: 0
 
       - name: Setup-git
         run: |
@@ -102,7 +107,11 @@ jobs:
           git config user.email "github-actions[bot]@users.noreply.github.com"
 
       - name: Package Helm chart
+        env:
+            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
+          pwd
+          git remote set-url origin https://github.com/Aashish-Lohar/infinite-scroll.git
           git checkout gh-pages
           git merge --no-ff publish-chart 
           rm *.tgz
