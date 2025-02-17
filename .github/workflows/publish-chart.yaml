@@ -41,7 +41,7 @@ jobs:
           npx owasp-dependency-check -d . -o dependency-check-report.html
 
       - name: Upload Dependency Check Report
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@master
         with:
           name: dependency-check-report.html
           
