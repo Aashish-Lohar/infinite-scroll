@@ -35,6 +35,17 @@ jobs:
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
+      - name: owasp-dependency-check
+        run: |
+          npm install -D owasp-dependency-check
+          npx owasp-dependency-check -d . -o dependency-check-report.html
+
+      - name: Upload Dependency Check Report
+        uses: actions/upload-artifact@v2
+        with:
+          name: dependency-check-report.html
+          
+
   build-scan-publish-image:
     runs-on: ubuntu-latest
     needs: static-code-analysis
@@ -69,7 +80,7 @@ jobs:
         with:
           image-ref: ${{ secrets.DOCKER_USERNAME }}/infinite-scroll:latest
           format: "table"
-          severity: "CRITICAL,HIGH"
+          # severity: "CRITICAL,HIGH, MEDIUM"
           output: trivy-result.txt
 
       - name: Check Trivy result file
