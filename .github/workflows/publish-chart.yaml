@@ -30,10 +30,10 @@ jobs:
           path: ./
           key: ${{ runner.os }}-cache-${{ github.sha }}
 
-      - name: SonarQube Scan
-        uses: SonarSource/sonarqube-scan-action@v4
-        env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+      # - name: SonarQube Scan
+      #   uses: SonarSource/sonarqube-scan-action@v4
+      #   env:
+      #     SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
       # - name: owasp-dependency-check
       #   run: |
@@ -44,7 +44,11 @@ jobs:
       #   uses: actions/upload-artifact@master
       #   with:
       #     name: dependency-check-report.html
-          
+
+      - name: owasp-dependency-check
+        run: |
+          docker run --rm -v $(pwd):/infinite-scroll owasp/dependency-check --scan /infinite-scroll --project "infinite-scroll" --out /infinite-scroll/reports
+          ls reports
 
   build-scan-publish-image:
     runs-on: ubuntu-latest
