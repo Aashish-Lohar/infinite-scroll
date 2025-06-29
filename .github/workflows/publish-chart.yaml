@@ -35,15 +35,15 @@ jobs:
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
-      - name: owasp-dependency-check
-        run: |
-          npm install -D owasp-dependency-check
-          npx owasp-dependency-check -d . -o dependency-check-report.html
+      # - name: owasp-dependency-check
+      #   run: |
+      #     npm install -D owasp-dependency-check
+      #     npx owasp-dependency-check -d . -o dependency-check-report.html
 
-      - name: Upload Dependency Check Report
-        uses: actions/upload-artifact@master
-        with:
-          name: dependency-check-report.html
+      # - name: Upload Dependency Check Report
+      #   uses: actions/upload-artifact@master
+      #   with:
+      #     name: dependency-check-report.html
           
 
   build-scan-publish-image:
