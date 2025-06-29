@@ -42,3 +42,4 @@ testem.log
 Thumbs.db
 .scannerwork/.sonar_lock
 .scannerwork/report-task.txt
+dependency-check-*
