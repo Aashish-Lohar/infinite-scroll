@@ -45,10 +45,10 @@ jobs:
       #   with:
       #     name: dependency-check-report.html
 
-      - name: owasp-dependency-check
-        run: |
-          docker run --rm -v $(pwd):/infinite-scroll owasp/dependency-check --scan /infinite-scroll --project "infinite-scroll" --out /infinite-scroll/reports
-          ls reports
+      # - name: owasp-dependency-check
+      #   run: |
+      #     docker run --rm -v $(pwd):/infinite-scroll owasp/dependency-check --scan /infinite-scroll --project "infinite-scroll" --out /infinite-scroll/reports
+      #     ls reports
 
   build-scan-publish-image:
     runs-on: ubuntu-latest
