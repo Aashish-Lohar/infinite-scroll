@@ -2,13 +2,13 @@ apiVersion: v1
 entries:
   infinite-scroll-chart:
   - apiVersion: v2
-    appVersion: 0.1.5
-    created: "2025-06-30T13:17:43.103305107Z"
+    appVersion: 0.1.6
+    created: "2025-06-30T13:27:50.708209156Z"
     description: A Helm chart for Kubernetes
-    digest: 799f9c4dd4bdf6af8f64cac3c722591dc4104e61e89c2f7f767f9bb65ccf4fc9
+    digest: 88e61c3a17a99fe88acef532ac1312f01b9bb26d1f289df24756dcc670295e15
     name: infinite-scroll-chart
     type: application
     urls:
-    - infinite-scroll-chart-0.1.7.tgz
-    version: 0.1.7
-generated: "2025-06-30T13:17:43.098254278Z"
+    - infinite-scroll-chart-0.1.8.tgz
+    version: 0.1.8
+generated: "2025-06-30T13:27:50.703400908Z"
